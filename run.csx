@@ -7,6 +7,10 @@ public static string Run(string inputFile, string name, TraceWriter log)
     string[] content = inputFile.Split("\n");
 
     // loop per line
+    foreach(string s in content)
+    {
+        
+    }
 
     return inputFile;
 }
