@@ -60,12 +60,10 @@ public static string Run(string inputFile, string name, TraceWriter log)
 {
     log.Info($"C# External trigger function processed file: " + name);
 
-    var result = new List<string>();
-
     // Split lines
     try
     {
-        string[] lines = content.Split('\n');
+        string[] lines = inputFile.Split('\n');
 
         // Loop per line
         foreach (string line in lines)
@@ -76,14 +74,14 @@ public static string Run(string inputFile, string name, TraceWriter log)
                 string[] fields = line.Split(';');
                 if(!data.Save())
                 {
-                    log.Error($"Error on writing data line {Counter}: {ex.Message}.")
+                    log.Error($"Error on writing data line {Counter}: {ex.Message}.");
                 }
             }
         }
     }
     catch (Exception ex)
     {
-        log.Error($"Some error occured: {ex.Message}.")
+        log.Error($"Some error occured: {ex.Message}.");
     }
 
     return inputFile;
