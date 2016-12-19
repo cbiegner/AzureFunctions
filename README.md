@@ -1,2 +1,2 @@
 # AzureFunctions
-# multiple tries. Just for testing purposes
+multiple tries. Just for testing purposes
