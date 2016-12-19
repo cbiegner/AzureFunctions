@@ -27,6 +27,13 @@ private class fdata
 
             processed = true;
         }
+        else
+        {
+            if(input.Trim() != string.Empty)
+            {
+                log.Error($"Number of fields differ in line: {input}.")
+            }    
+        }
     }
 
     public bool processed { get; private set; }
@@ -65,22 +72,11 @@ public static string Run(string inputFile, string name, TraceWriter log)
         {
             if (Counter++ > 0)
             {
-                var data = new fdata()
+                var data = new fdata(line);
                 string[] fields = line.Split(';');
-                if (fields.Length >= 12)
+                if(!data.Save())
                 {
-                    if(data.Save())
-                    {
-                    }
-                    else
-                    {
-                        log.Error($"Error on writing data line {Counter}: {ex.Message}.")
-                    }
-                }
-                else
-                {
-                    if(line.Trim() != string.Empty)
-                        log.Error($"Number of fields differ in line: {Counter}.")
+                    log.Error($"Error on writing data line {Counter}: {ex.Message}.")
                 }
             }
         }
