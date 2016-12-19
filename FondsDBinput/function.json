@@ -11,7 +11,7 @@
       "type": "apiHubFile",
       "name": "$return",
       "direction": "out",
-      "path": "Azure/MyFunctions/{name}",
+      "path": "Azure/MyFunctions/{name}.out",
       "connection": "onedrive_ONEDRIVE"
     }
   ],
