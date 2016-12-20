@@ -10,6 +10,8 @@ private class fdata
     public fdata(string input)
     {
         processed = false;
+
+        raw = input;
         string[] fields = input.Split(';');
 
         if (fields.Length >= 12)
@@ -29,6 +31,7 @@ private class fdata
         }
     }
 
+    public string raw { get; private set; }
     public bool processed { get; private set; }
     public string s1 { get; set; }
     public string s2 { get; set; }
@@ -66,7 +69,7 @@ public static string Run(string inputFile, string name, TraceWriter log)
             {
                 var data = new fdata(line);
                 string[] fields = line.Split(';');
-                if(!data.Save())
+                if(!data.Save() && raw.Trim() != string.Empty)
                 {
                     log.Error($"Error on writing data line {Counter}: {line}.");
                 }
