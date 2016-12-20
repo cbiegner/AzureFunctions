@@ -11,7 +11,7 @@ private class fdata
     {
         processed = false;
 
-        raw = input;
+        this.raw = input;
         string[] fields = input.Split(';');
 
         if (fields.Length >= 12)
@@ -69,7 +69,7 @@ public static string Run(string inputFile, string name, TraceWriter log)
             {
                 var data = new fdata(line);
                 string[] fields = line.Split(';');
-                if(!data.Save() && raw.Trim() != string.Empty)
+                if(!data.Save() && data.raw.Trim() != string.Empty)
                 {
                     log.Error($"Error on writing data line {Counter}: {line}.");
                 }
