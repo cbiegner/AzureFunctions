@@ -18,12 +18,12 @@ private class fdata
             this.s2 = fields[1];
             this.s3 = fields[2];
             this.s4 = fields[3];
-            this.s5 = double.parse(fields[4]);
-            this.s6 = double.parse(fields[5]);
-            this.s7 = double.parse(fields[6]);
-            this.s8 = double.parse(fields[7]);
+            this.s5 = double.Parse(fields[4]);
+            this.s6 = double.Parse(fields[5]);
+            this.s7 = double.Parse(fields[6]);
+            this.s8 = double.Parse(fields[7]);
             this.s9 = fields[8];
-            this.s10 = double.parse(fields[9]);            
+            this.s10 = double.Parse(fields[9]);            
 
             processed = true;
         }
@@ -53,6 +53,7 @@ public static string Run(string inputFile, string name, TraceWriter log)
 {
     log.Info($"C# External trigger function processed file: " + name);
 
+    int Counter = 0;
     // Split lines
     try
     {
@@ -67,7 +68,7 @@ public static string Run(string inputFile, string name, TraceWriter log)
                 string[] fields = line.Split(';');
                 if(!data.Save())
                 {
-                    log.Error($"Error on writing data line {Counter}: {ex.Message}.");
+                    log.Error($"Error on writing data line {Counter}: {line}.");
                 }
             }
         }
