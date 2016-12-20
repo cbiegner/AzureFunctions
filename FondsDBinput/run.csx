@@ -27,13 +27,6 @@ private class fdata
 
             processed = true;
         }
-        else
-        {
-            if(input.Trim() != string.Empty)
-            {
-                log.Error($"Number of fields differ in line: {input}.")
-            }    
-        }
     }
 
     public bool processed { get; private set; }
