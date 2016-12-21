@@ -13,6 +13,14 @@
       "direction": "out",
       "path": "Azure/MyFunctions/Result/{name}.out",
       "connection": "onedrive_ONEDRIVE"
+    },
+    {
+      "name": "outputSbQueue",
+      "queueName": "fonds",
+      "connection": "fdbservicebusCS",
+      "accessRights_": "Send",
+      "type": "serviceBus",
+      "direction": "out"
     }
   ],
   "disabled": false

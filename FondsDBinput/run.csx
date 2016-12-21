@@ -1,62 +1,17 @@
+#load "./fdata.csx"
+
+#r "Newtonsoft.Json"
+
 using System;
 
-private class fdata
-{
-    public fdata()
-    {
-        processed = false;
-    }
+using Newtonsoft.Json;
 
-    public fdata(string input)
-    {
-        processed = false;
-
-        this.raw = input;
-        string[] fields = input.Split(';');
-
-        if (fields.Length >= 12)
-        {
-            this.s1 = fields[0];
-            this.s2 = fields[1];
-            this.s3 = fields[2];
-            this.s4 = fields[3];
-            this.s5 = double.Parse(fields[4]);
-            this.s6 = double.Parse(fields[5]);
-            this.s7 = double.Parse(fields[6]);
-            this.s8 = double.Parse(fields[7]);
-            this.s9 = fields[8];
-            this.s10 = double.Parse(fields[9]);            
-
-            processed = true;
-        }
-    }
-
-    public string raw { get; private set; }
-    public bool processed { get; private set; }
-    public string s1 { get; set; }
-    public string s2 { get; set; }
-    public string s3 { get; set; }
-    public string s4 { get; set; }
-    public double s5 { get; set; }
-    public double s6 { get; set; }
-    public double s7 { get; set; }
-    public double s8 { get; set; }
-    public string s9 { get; set; }
-    public double s10 { get; set; }
-
-    public bool Save()
-    {
-        if(processed)
-            return true;
-        else
-            return false;
-    }
-}
-public static string Run(string inputFile, string name, TraceWriter log)
+public static string Run(string inputFile, string name, TraceWriter log, ICollector<string> outputSbQueue)
 {
     log.Info($"C# External trigger function processed file: " + name);
 
     int Counter = 0;
+
     // Split lines
     try
     {
@@ -65,13 +20,21 @@ public static string Run(string inputFile, string name, TraceWriter log)
         // Loop per line
         foreach (string line in lines)
         {
+            // Skip first line
             if (Counter++ > 0)
             {
                 var data = new fdata(line);
                 string[] fields = line.Split(';');
-                if(!data.Save() && data.raw.Trim() != string.Empty)
+                if(data.Save())
                 {
-                    log.Error($"Error on writing data line {Counter}: {line}.");
+                    outputSbQueue.Add(JsonConvert.SerializeObject(data));
+                }
+                else
+                {
+                    if(data.raw.Trim()!= string.Empty)
+                    {
+                        log.Error($"Error on writing data line {Counter}: {line}.");
+                    }
                 }
             }
         }
@@ -80,6 +43,8 @@ public static string Run(string inputFile, string name, TraceWriter log)
     {
         log.Error($"Some error occured: {ex.Message}.");
     }
+
+    log.Info($"{Counter} lines processed]: " + name);
 
     return inputFile;
 }
