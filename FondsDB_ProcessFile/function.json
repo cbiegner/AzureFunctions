@@ -1,0 +1,20 @@
+{
+  "bindings": [
+    {
+      "type": "apiHubFileTrigger",
+      "name": "inputFile",
+      "direction": "in",
+      "path": "Azure/MyFunctions/{name}",
+      "connection": "onedrive_ONEDRIVE"
+    },
+    {
+      "name": "outputSbQueue",
+      "queueName": "fonds",
+      "connection": "fdbservicebusCS",
+      "accessRights_": "Send",
+      "type": "serviceBus",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}
